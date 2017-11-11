@@ -1,0 +1,7 @@
+services:
+    boncoin.parsing:
+        class: BoncoinBundle\Service\ParsingService
+        arguments:
+            - "@boncoin.curl"
+    boncoin.curl:
+        class: BoncoinBundle\Service\CurlService

@@ -1,0 +1,9 @@
+/var/
+!var/cache/.gitkeep
+!var/logs/.gitkeep
+/app/config/parameters.yml
+/phpunit.xml
+phpunit.xml.dist
+/vendor/
+/web/bundles/
+.idea/

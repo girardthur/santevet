@@ -1,0 +1,4 @@
+boncoin:
+    resource: "@BoncoinBundle/Controller/MainController.php"
+    prefix:   /
+    type:     annotation
