@@ -31,12 +31,12 @@ class CurlService
      */
     public function getUrlDOM(string $url)
     {
-        $ch = $this->getCurl();
+        $chCurl = $this->getCurl();
 
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($chCurl, CURLOPT_URL, $url);
+        curl_setopt($chCurl, CURLOPT_RETURNTRANSFER, 1);
 
-        $response = utf8_encode(curl_exec($ch));
+        $response = utf8_encode(curl_exec($chCurl));
 
         // Check if curl request return content
         if (strlen($response) == 0) {

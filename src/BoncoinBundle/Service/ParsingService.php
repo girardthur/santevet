@@ -2,6 +2,7 @@
 
 namespace BoncoinBundle\Service;
 
+use BoncoinBundle\Entity\Annonce;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -77,11 +78,7 @@ class ParsingService
                     $price = null;
                 }
 
-                return [
-                    "title" => $title,
-                    "location" => $location,
-                    "price" => $price
-                ];
+                return new Annonce($title, $location, $price);
             });
 
         if (count($annoncesInfos) == 0) {
@@ -106,6 +103,4 @@ class ParsingService
     {
         $this->curlService = $curlService;
     }
-
-
 }

@@ -7,6 +7,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
+ * Class MainController
+ * @package BoncoinBundle\Controller
+ *
  * @Route("/")
  */
 class MainController extends Controller
@@ -21,17 +24,4 @@ class MainController extends Controller
         return $this->render('BoncoinBundle:Main:index.html.twig');
     }
 
-    /**
-     * Show load data page
-     *
-     * @Route("/loadData", name="boncoin_loaddata")
-     */
-    public function loadDataAction()
-    {
-        $results = $this->container->get("boncoin.parsing")->getBonCoinResults("/animaux/offres/rhone_alpes/", 100);
-
-        return $this->render('BoncoinBundle:Main:load.html.twig', array(
-            'annonces' => $results,
-        ));
-    }
 }
