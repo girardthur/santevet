@@ -24,9 +24,9 @@ class AnnonceController extends Controller
     {
         $annonces = $this->container->get("boncoin.parsing")->getBonCoinResults("/animaux/offres/rhone_alpes/", $limit);
 
-        $this->deleteAnnonces();
+        $this->deleteAnnoncesAction();
 
-        $this->createAnnonces($annonces);
+        $this->createAnnoncesAction($annonces);
 
         return $this->render('BoncoinBundle:Main:load.html.twig', array(
             'annonces' => $annonces,
@@ -38,7 +38,7 @@ class AnnonceController extends Controller
      *
      * @param array $annonces
      */
-    public function createAnnonces(array $annonces)
+    public function createAnnoncesAction(array $annonces)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -53,7 +53,7 @@ class AnnonceController extends Controller
     /**
      * Delete all Annonces from database
      */
-    public function deleteAnnonces()
+    public function deleteAnnoncesAction()
     {
         $this->getDoctrine()->getManager()->getRepository("BoncoinBundle:Annonce")->deleteAll();
     }
