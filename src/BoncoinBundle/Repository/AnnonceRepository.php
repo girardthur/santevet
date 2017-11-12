@@ -2,6 +2,8 @@
 
 namespace BoncoinBundle\Repository;
 
+use Doctrine\Common\Collections\Criteria;
+
 /**
  * AnnonceRepository
  *
@@ -10,6 +12,57 @@ namespace BoncoinBundle\Repository;
  */
 class AnnonceRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Return a list of annonces
+     *
+     * @param string|null $titleKeywords
+     * @param null $minPrice
+     * @param null $maxPrice
+     * @return array
+     */
+    public function findBySearch(string $titleKeywords = null, $minPrice = null, $maxPrice = null)
+    {
+        $qb = $this->_em->createQueryBuilder();
+
+        $qb->select('a')
+            ->from('BoncoinBundle:Annonce', 'a');
+
+        $parameters = [];
+
+        $andX = $qb->expr()->andX();
+
+        if (!is_null($titleKeywords)) {
+            $parameters['titleKeywords'] = '%' . $titleKeywords . '%';
+            $andX->add($qb->expr()->like('a.title', ':titleKeywords'));
+        }
+
+        if (!is_null($minPrice)) {
+            $parameters['minPrice'] = $minPrice;
+            $andX->add($qb->expr()->gte('a.price', ':minPrice'));
+        }
+
+        if (!is_null($maxPrice)) {
+            $parameters['maxPrice'] = $maxPrice;
+            $orX = $qb->expr()->orX();
+            $orX->add($qb->expr()->lte('a.price', ':maxPrice'));
+            $orX->add($qb->expr()->isNull('a.price'));
+            $andX->add($orX);
+        }
+
+        // If parameters, set query conditions
+        if ($andX->count() > 0) {
+            $qb->andWhere($andX);
+            $qb->setParameters($parameters);
+        }
+
+        $qb->addCriteria(
+            Criteria::create()
+                ->orderBy(array('price' => Criteria::DESC))
+        );
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
     /**
      * Delete all annonces from database
      */
@@ -20,4 +73,5 @@ class AnnonceRepository extends \Doctrine\ORM\EntityRepository
 
         $connection->executeUpdate($dbPlatform->getTruncateTableSQL('annonce'));
     }
+
 }
