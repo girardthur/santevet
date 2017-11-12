@@ -1,3 +1,55 @@
-{{ form(searchForm) }}
-{{ annonces|length }} résultats
-{{ dump(annonces) }}
+{% form_theme searchForm 'bootstrap_3_horizontal_layout.html.twig' %}
+<html>
+    <head>
+        <title>Accueil: Rechercher une annonce</title>
+    </head>
+    <body>
+        {{ form_start(searchForm) }}
+
+            {{ form_row(searchForm.title) }}
+
+            {{ form_row(searchForm.pmin) }}
+
+            {{ form_row(searchForm.pmax) }}
+
+            {{ form_row(searchForm.submit) }}
+
+        {{ form_end(searchForm) }}
+
+        {% if annonces|length > 0 %}
+
+            {{ annonces|length }} résultats
+
+            <table style="width:80%">
+                <tr>
+                    <th align="left">Titre</th>
+                    <th align="left">Lieu</th>
+                    <th align="left">Prix</th>
+                </tr>
+                {% for annonce in annonces %}
+                    <tr>
+                        <td>{{ annonce.title }}</td>
+
+                        <td>{{ annonce.location }}</td>
+
+                        <td>
+                            {% if annonce.price|length == 0 %}
+                                -
+                            {% else %}
+                                {{ annonce.price }}€
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+
+        {% endif %}
+    </body>
+</html>
+
+
+
+
+
+
