@@ -33,7 +33,7 @@ class AnnonceController extends Controller
 
         $this->createAnnoncesAction($annonces);
 
-        return $this->render('BoncoinBundle:Main:load.html.twig', array(
+        return $this->render('BoncoinBundle:Annonce:load.html.twig', array(
             'annonces' => $annonces,
         ));
     }
