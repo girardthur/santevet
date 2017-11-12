@@ -19,6 +19,7 @@ class ParsingService
 
     /**
      * ParsingService constructor.
+     * @param CurlService $curlService
      */
     public function __construct(CurlService $curlService)
     {
@@ -61,9 +62,8 @@ class ParsingService
 
         $annoncesInfos = $crawler
             ->filterXPath('//section[@class="tabsContent block-white dontSwitch"]')
-            ->filter('.item_infos')
+            ->filterXPath('//a[@class="list_item clearfix trackable"]')
             ->each(function (Crawler $nodeCrawler) {
-
                 // Get title
                 $title = trim($nodeCrawler->filter('.item_title')->text());
 
@@ -78,7 +78,10 @@ class ParsingService
                     $price = null;
                 }
 
-                return new Annonce($title, $location, $price);
+                // Get url
+                $url = 'https://' . substr($nodeCrawler->attr("href"), 2);
+
+                return new Annonce($title, $location, $price, $url);
             });
 
         if (count($annoncesInfos) == 0) {

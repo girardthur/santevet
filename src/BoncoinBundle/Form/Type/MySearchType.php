@@ -15,7 +15,6 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class MySearchType extends \Symfony\Component\Form\AbstractType
 {
-
     /**
      * Building form method
      *

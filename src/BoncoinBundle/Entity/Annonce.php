@@ -42,11 +42,35 @@ class Annonce
      */
     private $price;
 
-    public function __construct(string $title, string $location, $price)
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="url", type="string", length=255)
+     */
+    private $url;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="viewCounter", type="integer", options={"default"=0} )
+     */
+    private $viewCounter;
+
+    /**
+     * Annonce constructor.
+     * @param string $title
+     * @param string $location
+     * @param $price
+     * @param $url
+     * @param int $viewCounter
+     */
+    public function __construct(string $title, string $location, $price, $url, $viewCounter = 0)
     {
         $this->title = $title;
         $this->location = $location;
         $this->price = $price;
+        $this->url = $url;
+        $this->viewCounter = $viewCounter;
     }
 
     /**
@@ -130,4 +154,54 @@ class Annonce
     {
         return $this->price;
     }
+
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setUrl(string $url)
+    {
+        $this->url = $url;
+    }
+
+    /**
+     * @return int
+     */
+    public function getViewCounter(): int
+    {
+        return $this->viewCounter;
+    }
+
+    /**
+     * @param int $viewCounter
+     */
+    public function setViewCounter(int $viewCounter)
+    {
+        $this->viewCounter = $viewCounter;
+    }
+
+    /**
+     * Increment view counter from one view
+     */
+    public function incrementView()
+    {
+        $this->viewCounter++;
+    }
+
+    /**
+     * Return unique id generated from unique url
+     * @return string
+     */
+    public function getUniqueId()
+    {
+        return base64_encode($this->getUrl());
+    }
+
 }

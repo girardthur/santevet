@@ -25,10 +25,11 @@
                     <th align="left">Titre</th>
                     <th align="left">Lieu</th>
                     <th align="left">Prix</th>
+                    <th align="center">Nombre visiteurs</th>
                 </tr>
                 {% for annonce in annonces %}
                     <tr>
-                        <td>{{ annonce.title }}</td>
+                        <td><a href="{{ path('boncoin_viewannonce', {'annonce': annonce.id }) }}">{{ annonce.title }}</a></td>
 
                         <td>{{ annonce.location }}</td>
 
@@ -39,6 +40,7 @@
                                 {{ annonce.price }}€
                             {% endif %}
                         </td>
+                        <td align="center">{{ annonce.viewCounter }}</td>
                     </tr>
                 {% endfor %}
             </table>
@@ -47,9 +49,3 @@
         {% endif %}
     </body>
 </html>
-
-
-
-
-
-

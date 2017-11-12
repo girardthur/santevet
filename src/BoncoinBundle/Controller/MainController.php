@@ -2,13 +2,12 @@
 
 namespace BoncoinBundle\Controller;
 
-use BoncoinBundle\Form\Type\MySearchType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
+use BoncoinBundle\Form\Type\MySearchType;
 
 /**
  * Class MainController
@@ -22,6 +21,9 @@ class MainController extends Controller
     /**
      * Show homepage
      *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/", name="boncoin_index")
      */
     public function indexAction(Request $request)
@@ -33,7 +35,7 @@ class MainController extends Controller
 
         $searchForm->handleRequest($request);
 
-        if ($searchForm->isSubmitted()){
+        if ($searchForm->isSubmitted()) {
             if ($searchForm->isValid()) {
                 $annonces = $annonceRepository->findBySearch(
                     $searchForm->getData()['title'],
@@ -44,7 +46,6 @@ class MainController extends Controller
         } else {
             $annonces = $annonceRepository->findBySearch();
         }
-
 
         return $this->render('BoncoinBundle:Main:index.html.twig', array(
             'annonces' => $annonces,
